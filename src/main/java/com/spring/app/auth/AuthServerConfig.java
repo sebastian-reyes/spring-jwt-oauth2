@@ -38,12 +38,19 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter{
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception{
-        super.configure(security);
+        security.tokenKeyAccess("permitAll()")
+        .checkTokenAccess("isAuthenticated()");
     }
 
     @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception{
-        super.configure(clients);
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception{        
+        //Por cada cliente que consuma nuestra API se debe hacer todo este procedimiento.
+        clients.inMemory().withClient("cliente-1")
+        .secret(passwordEncoder.encode("cliente2021"))
+        .scopes("read","write")
+        .authorizedGrantTypes("password", "refresh-token")
+        .accessTokenValiditySeconds(3600)
+        .refreshTokenValiditySeconds(3600);
     }
 
     @Override
