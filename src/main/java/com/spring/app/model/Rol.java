@@ -31,4 +31,9 @@ public class Rol implements Serializable{
     
     @ManyToMany(mappedBy = "roles")
     private List<Usuario> usuario;
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 }

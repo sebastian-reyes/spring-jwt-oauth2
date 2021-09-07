@@ -54,7 +54,7 @@ public class Usuario implements Serializable{
 		fecha_creacion = new Date();
 	}
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), 
     inverseJoinColumns = @JoinColumn(name = "rol_id"), 
     uniqueConstraints = { @UniqueConstraint(columnNames = {"usuario_id","rol_id"}) })
