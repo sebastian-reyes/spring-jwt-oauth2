@@ -15,7 +15,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         /*
          * Esto es para que un endpoint pueda ser visible sin necesidad de autenticarte.
          */
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "api/productos").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/usuarios").permitAll()
         .anyRequest().authenticated();
     }
 }
