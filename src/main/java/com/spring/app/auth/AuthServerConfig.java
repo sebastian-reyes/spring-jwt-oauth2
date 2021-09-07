@@ -45,7 +45,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter{
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception{        
         //Por cada cliente que consuma nuestra API se debe hacer todo este procedimiento.
-        clients.inMemory().withClient("cliente-1")
+        clients.inMemory().withClient("cliente1")
         .secret(passwordEncoder.encode("cliente2021"))
         .scopes("read","write")
         .authorizedGrantTypes("password", "refresh-token")
