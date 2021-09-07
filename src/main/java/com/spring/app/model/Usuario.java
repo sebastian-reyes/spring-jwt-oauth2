@@ -20,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,6 +58,7 @@ public class Usuario implements Serializable{
     @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), 
     inverseJoinColumns = @JoinColumn(name = "rol_id"), 
     uniqueConstraints = { @UniqueConstraint(columnNames = {"usuario_id","rol_id"}) })
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler","usuario"})
     private List<Rol> roles;
 
     /**
