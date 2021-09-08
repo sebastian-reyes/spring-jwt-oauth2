@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +35,7 @@ public class UsuarioRestController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerUsuario(@PathVariable Integer id) {
         Usuario objUsuario = null;
@@ -53,6 +56,7 @@ public class UsuarioRestController {
         }
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@RequestBody Usuario u) {
         Usuario nuevoUsuario = null;
@@ -67,5 +71,22 @@ public class UsuarioRestController {
         response.put("mensaje", "El usuario fue creado con éxito");
 		response.put("usuario", nuevoUsuario);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<?> eliminarUsuario(@PathVariable Integer id){
+        Usuario usuarioEliminado = null;
+        Map<String, Object> response = new HashMap<>();
+        usuarioEliminado = service.buscarUsuario(id);
+        if(usuarioEliminado == null){
+            response.put("error", "El usuario no existe en la base de datos.");
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+        }else{
+            service.eliminarUsuario(id);
+            response.put("mensaje", "Usuario eliminado correctamente.");
+            response.put("usuario_eliminado", usuarioEliminado);
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+        }
     }
 }
