@@ -12,10 +12,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        /*
-         * Esto es para que un endpoint pueda ser visible sin necesidad de autenticarte.
-         */
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/usuarios").permitAll()
-        .anyRequest().authenticated();
+                /*
+                .antMatchers(HttpMethod.GET, "/api/usuarios/{id}").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/usuarios/registro").hasRole("ADMIN")
+                */
+                .anyRequest()
+                .authenticated();
     }
 }
